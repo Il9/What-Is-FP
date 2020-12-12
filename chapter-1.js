@@ -1,4 +1,4 @@
-import { compose, pipe } from "./util";
+import { compose, pipe } from './util/index.js';
 
 // 제곱 계산을 합니다.
 const pow = (num1, num2) => Math.pow(num1, num2);
