@@ -1,0 +1,20 @@
+{
+  "name": "what-is-fp",
+  "version": "1.0.0",
+  "description": "함수형 프로그래밍이란 무엇인가",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Il9/What-Is-FP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Il9/What-Is-FP/issues"
+  },
+  "homepage": "https://github.com/Il9/What-Is-FP#readme"
+}
