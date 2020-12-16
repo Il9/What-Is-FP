@@ -70,6 +70,7 @@ const newNight2 = anyHome =>
 // 이제는 아무리 밤이 지나가도 내 가정은 안전하다
 newNight(myHome); // ['mom', 'dad', 'me', 'baby]
 newNight2(myHome); // ['mom', 'dad']
+console.log(myHome); // ['mom', 'dad', 'me']
 
 // ============================================================
 
