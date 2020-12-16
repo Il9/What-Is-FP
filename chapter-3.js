@@ -29,8 +29,7 @@ const renameWithoutCurry = (keysMap, obj) => {
 // 구현은 했으나 person이 넘어와도 파라미터로 받아서 써야한다.
 pipe(
   person => dissocWithoutCurry('age', person),
-  person =>
-    renameWithoutCurry({ work: 'job' }, person)
+  person => renameWithoutCurry({ work: 'job' }, person)
 )(person);
 
 // 파라미터를 전부 채워야 함수가 실행되도록 변경
@@ -52,10 +51,7 @@ const renameWithCurry = keysMap => obj => {
 };
 
 // 깔끔해졌다.
-pipe(
-  dissocWithCurry('age'),
-  renameWithCurry({ work: 'job' })
-)(person);
+pipe(dissocWithCurry('age'), renameWithCurry({ work: 'job' }))(person);
 
 // 키 삭제 함수 (자동 커링)
 const dissoc = curry((dissocKey, obj) => {
@@ -76,7 +72,4 @@ const rename = curry((keysMap, obj) => {
 
 // pipe(dissocWithCurry('age'), renameWithCurry({ work: 'job' }))(person);
 // 같은 결과
-pipe(
-  dissoc('age'),
-  rename({ work: 'job' })
-)(person);
+pipe(dissoc('age'), rename({ work: 'job' }))(person);

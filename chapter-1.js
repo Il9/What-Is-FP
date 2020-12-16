@@ -14,7 +14,7 @@ firstClass2(firstClass1); // true
 // 3. 함수를 리턴함
 // pipe 에서 함수의 결과로 이어주는 처리와 같다는걸 알 수 있음
 const firstClass3 = func => () => func();
-firstClass3(firstClass2(firstClass1))(); // true
+firstClass3(() => firstClass2(firstClass1))(); // true
 
 // ============================================================
 
@@ -50,9 +50,7 @@ console.log(myHome); // ['mom', 'dad', 'me', 'baby]
 
 // 외부의 어떤 변수를 변경 시키면 불변성이 지켜지지 않는다.
 const night2 = () => {
-  myHome = myHome.filter(
-    person => person !== 'me'
-  );
+  myHome = myHome.filter(person => person !== 'me');
 };
 
 // 이번엔 그저 두번째 밤이 지나갔을 뿐인데 내가 가출했다.
@@ -62,10 +60,8 @@ console.log(myHome); // ['mom', 'dad', 'baby]
 
 // 그럼 어떻게 하냐?
 // 새로운걸 만들어서 반환해라
-const newNight = anyHome =>
-  anyHome.concat('baby');
-const newNight2 = anyHome =>
-  anyHome.filter(person => person !== 'me');
+const newNight = anyHome => anyHome.concat('baby');
+const newNight2 = anyHome => anyHome.filter(person => person !== 'me');
 
 // 이제는 아무리 밤이 지나가도 내 가정은 안전하다
 newNight(myHome); // ['mom', 'dad', 'me', 'baby]
