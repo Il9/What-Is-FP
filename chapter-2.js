@@ -1,82 +1,30 @@
-import { pipe, curry } from './util/index.js';
+import { compose, pipe } from './util/index.js';
 
-// 아래 조건을 만족하는 객체로 만들고 싶다.
-// 1. age 삭제
-// 2. work 라는 키를 job으로 변경
-const person = {
-  name: 'nakta',
-  age: 10,
-  work: 'developer'
-};
+// 제곱 계산을 합니다.
+const pow = (num1, num2) => Math.pow(num1, num2);
 
-// 키 삭제 함수
-const dissocWithoutCurry = (dissocKey, obj) => {
-  return Object.keys(obj).reduce((acc, key) => {
-    if (key === dissocKey) return acc;
-    acc[key] = obj[key];
-    return acc;
-  }, {});
-};
+// 숫자를 음수로 만듭니다.
+const negate = num => num * -1;
 
-// 키 변경 함수
-const renameWithoutCurry = (keysMap, obj) => {
-  return Object.keys(obj).reduce((acc, key) => {
-    acc[keysMap[key] || key] = obj[key];
-    return acc;
-  }, {});
-};
+// 숫자에 더하기 1을 합니다.
+const inc = num => num + 1;
 
-// 구현은 했으나 person이 넘어와도 파라미터로 받아서 써야한다.
-pipe(
-  person => dissocWithoutCurry('age', person),
-  person =>
-    renameWithoutCurry({ work: 'job' }, person)
-)(person);
+// 함수를 합성해서 값을 하나 만들어 보자
+// 한눈에 파악이 힘들다.
+inc(negate(pow(2, 4))); // -15
 
-// 파라미터를 전부 채워야 함수가 실행되도록 변경
-// 키 삭제 함수 (수동 커링)
-const dissocWithCurry = dissocKey => obj => {
-  return Object.keys(obj).reduce((acc, key) => {
-    if (key === dissocKey) return acc;
-    acc[key] = obj[key];
-    return acc;
-  }, {});
-};
+// compose로 anyVal을 다시 구현 해보자
+// 오른쪽에서 왼쪽으로 실행
+compose(
+  num => inc(num),
+  num => negate(num),
+  (num1, num2) => pow(num1, num2)
+)(2, 4);
 
-// 키 변경 함수 (수동 커링)
-const renameWithCurry = keysMap => obj => {
-  return Object.keys(obj).reduce((acc, key) => {
-    acc[keysMap[key] || key] = obj[key];
-    return acc;
-  }, {});
-};
+// Pointfree Style로 변경
+compose(inc, negate, pow)(2, 4);
 
-// 깔끔해졌다.
-pipe(
-  dissocWithCurry('age'),
-  renameWithCurry({ work: 'job' })
-)(person);
-
-// 키 삭제 함수 (자동 커링)
-const dissoc = curry((dissocKey, obj) => {
-  return Object.keys(obj).reduce((acc, key) => {
-    if (key === dissocKey) return acc;
-    acc[key] = obj[key];
-    return acc;
-  }, {});
-});
-
-// 키 변경 함수 (자동 커링)
-const rename = curry((keysMap, obj) => {
-  return Object.keys(obj).reduce((acc, key) => {
-    acc[keysMap[key] || key] = obj[key];
-    return acc;
-  }, {});
-});
-
-// pipe(dissocWithCurry('age'), renameWithCurry({ work: 'job' }))(person);
-// 같은 결과
-pipe(
-  dissoc('age'),
-  rename({ work: 'job' })
-)(person);
+// pipe로 구현
+// 왼쪽에서 오른쪽으로 실행
+// 편 - 안
+pipe(pow, negate, inc)(2, 4);
